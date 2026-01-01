@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rude Collective - Ska, Rocksteady & Reggae</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --bg: #050608;
+      --bg-alt: #111217;
+      --accent: #f5d000; /* Puedes cambiar el acento */
+      --accent-soft: #f5d00022;
+      --text: #f5f5f5;
+      --muted: #aaaaaa;
+      --danger: #ff5555;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #202020 0, #050608 45%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(18px);
+      background: #050608dd;
+      border-bottom: 1px solid #222;
+    }
+
+    .container {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .logo-text strong {
+      letter-spacing: 0.18em;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .logo-text span {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    nav a {
+      padding-bottom: 4px;
+      border-bottom: 1px solid transparent;
+    }
+
+    nav a:hover {
+      border-bottom-color: var(--accent);
+    }
+
+    /* Player global */
+    .player-bar {
+      margin-top: 8px;
+      padding: 8px 0 16px;
+      border-top: 1px solid #222;
+    }
+
+    .player {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: linear-gradient(90deg, #181818, #080808);
+      border-radius: 999px;
+      padding: 10px 16px;
+      border: 1px solid #333;
+      box-shadow: 0 12px 35px #000000aa;
+    }
+
+    .player-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .player-cover {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background-image: linear-gradient(135deg, #fff 25%, #000 25%, #000 50%, #fff 50%, #fff 75%, #000 75%, #000 100%);
+      background-size: 10px 10px;
+      border: 1px solid #444;
+    }
+
+    .track-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .track-title {
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .track-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .player-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: var(--accent);
+      color: #000;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px #00000099;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid #444;
+    }
+
+    .btn-outline:hover {
+      background: #ffffff11;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 42px 0 32px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid #333;
+      background: #ffffff05;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 16px;
+      color: var(--muted);
+    }
+
+    .hero-badge span {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #10b981;
+      box-shadow: 0 0 0 5px #10b98133;
+    }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 42px);
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    h1 strong {
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 22px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid #333;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-aside {
+      background: #050608;
+      border-radius: 24px;
+      padding: 18px 18px 20px;
+      border: 1px solid #333;
+      box-shadow: 0 22px 48px #000000aa;
+    }
+
+    .schedule-title {
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .schedule-current {
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed #333;
+    }
+
+    .schedule-current h2 {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .schedule-current p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .schedule-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 240px;
+      overflow: auto;
+      padding-right: 6px;
+    }
+
+    .show-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: #111217;
+      border: 1px solid #222;
+    }
+
+    .show-time {
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      color: var(--muted);
+      min-width: 70px;
+    }
+
+    .show-name {
+      font-weight: 500;
+    }
+
+    .show-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid #333;
+      color: var(--muted);
+    }
+
+    /* Secciones generales */
+    section {
+      padding: 32px 0;
+    }
+
+    section:nth-of-type(odd) {
+      background: #050608;
+    }
+
+    section:nth-of-type(even) {
+      background: #050608;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-header h2 {
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .section-header p {
+      font-size: 13px;
+      color: var(--muted);
+      max-width: 380px;
+    }
+
+    /* Cards de programas / shows */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: #111217;
+      border-radius: 18px;
+      padding: 14px 14px 16px;
+      border: 1px solid #222;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .card-badge {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid #333;
+      color: var(--muted);
+    }
+
+    .card p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .card-footer {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Sección de comunidad */
+    .community-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .list li::before {
+      content: "◆";
+      font-size: 9px;
+      margin-right: 8px;
+      color: var(--accent);
+    }
+
+    /* Contacto */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 24px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    input, textarea, select {
+      margin-top: 4px;
+      background: #050608;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 8px 10px;
+      color: var(--text);
+      font: inherit;
+      resize: vertical;
+      min-height: 38px;
+    }
+
+    textarea {
+      min-height: 96px;
+    }
+
+    .footer {
+      border-top: 1px solid #222;
+      padding: 16px 0 22px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        display: none; /* Para empezar simple. Luego podrías hacer menú hamburguesa */
+      }
+
+      .hero-grid,
+      .community-layout,
+      .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .player {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .player-actions {
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER + NAV + PLAYER -->
+  <header>
+    <div class="container">
+      <div class="topbar">
+        <div class="logo">
+          <div class="logo-mark">R</div>
+          <div class="logo-text">
+            <strong>RUDE COLLECTIVE</strong>
+            <span>Rocksteady · Ska · Reggae</span>
+          </div>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#programacion">Notas</a></li>
+            <li><a href="#shows">Eventos</a></li>
+            <li><a href="#comunidad">Comunidad</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      
+    </div>
+
+ 
+
+  </header>
+
+  <!-- HERO -->
+  <main id="inicio">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-badge">
+              <span></span> Escena y cultura · Independiente
+            </div>
+            <h1>
+              Rocksteady, Ska &amp; <strong>Ritmos afines</strong> desde la comodidad de tu casa.
+            </h1>
+            <p class="hero-subtitle">
+              Flyers, notas y fotos dedicadas al Rocksteady, Ska, Reggae, 2 Tone y rock alternativo.
+              Espacio para bandas independientes, especiales por escena y una comunidad rude boy / rude girl siempre activa.
+            </p>
+
+            <div class="hero-tags">
+              <div class="tag">Rocksteady</div>
+              <div class="tag">Ska 2 Tone</div>
+              <div class="tag">Reggae &amp; Dub</div>
+              <div class="tag">Rock &amp; Fusión</div>
+            </div>
+
+            <div class="hero-actions">
+              <a href="https://open.spotify.com/playlist/6qpiL2zuzEf1ZwK07uliVs?si=8ebc9b4576774afc">
+              <button class="btn">▶ Escucha nuestra PlayList</button>
+              </a>
+              <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6qpiL2zuzEf1ZwK07uliVs?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+            </div>
+          </div>
+
+          <aside class="hero-aside" aria-label="Programación del día">
+            <div class="schedule-title">Notas rapidas</div>
+            <div class="schedule-current">
+              <h2>LAS RAPIDITAS</h2>
+              <p>Notas rapidas para tu día a día</p>
+            </div>
+            <div class="schedule-list">
+              <div class="show-item">
+                <div class="show-time">Escucha</div>
+                <div class="show-name">Disco del día</div>
+                <div class="show-tag">Rocksteady</div>
+              </div>
+              <div class="show-item">
+                <div class="show-time">Descubre</div>
+                <div class="show-name">Banda de la semana</div>
+                <div class="show-tag">Ska</div>
+              </div>
+              <div class="show-item">
+                <div class="show-time">Play list</div>
+                <div class="show-name">Roots &amp; Dub</div>
+                <div class="show-tag">Reggae</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sub notas -->
+    <section id="programacion">
+      <div class="container">
+        <div class="section-header">
+          <h2>Rude Journal</h2>
+          <p>Un espacio editorial dedicado a documentar, analizar y difundir la cultura ska, rocksteady, reggae y rock, desde una perspectiva independiente y abierta a escenas y voces de todo el mundo.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">Verbena navideña</div>
+              <div class="card-badge"></div>
+            </div>
+            <p>Te contamos todo dobre la presentaión de Out Of Control army, Los Korucos y Las Victimas del Dr. Cerebro.</p>
+            <div class="card-footer">
+              <span>Escrito por: </span>
+              <span>Ska · Rock</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">TLASKALITA</div>
+              <div class="card-badge"></div>
+            </div>
+            <p>Acá hacemos una revisión al cartel viendo todo lo que nos ofrece. Te decimos los actos que no te puedes perder.</p>
+            <div class="card-footer">
+              <span>Escrito por: </span>
+              <span>Festival</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">Seguimos perdiendo</div>
+              <div class="card-badge"></div>
+            </div>
+            <p>Te contamos como estuvo la celebreación de 30 años de Seguimos Perdiendo en el Multiforo Cultural Alicia</p>
+            <div class="card-footer">
+              <span>Escrito por: </span>
+              <span>Punk Rock</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">Recomendación del día</div>
+              <div class="card-badge"></div>
+            </div>
+            <p>Da clic aquí para darte la recomendación musical del día. </p>
+            <div class="card-footer">
+              <span></span>
+              <span>Música aleatoria</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROXIMOS CONCIERTOS -->
+    <section id="shows">
+      <div class="container">
+        <div class="section-header">
+          <h2>Eventos</h2>
+          <p>Aquí podrás ver los proximos conciertos que traemos para ti.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">Ska Wars</div>
+              <div class="card-badge">CDMX</div>
+            </div>
+            <p>Ska Wars: Out Of Control Army, Akatz, Skapital Sound, Staya Staya y mas.</p>
+            <div class="card-footer">
+              <span>21-02-2026</span>
+              <span>2 Tone</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">Panteón Rococó</div>
+              <div class="card-badge">Ecatepec</div>
+            </div>
+            <p>Despues de muchos años sin pisar Ecatepec, Panteón Rococó regresa para dar toda su energía en el escenario</p>
+            <div class="card-footer">
+              <span>18-04-2026</span>
+              <span>Ska</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">Proximamente...</div>
+              <div class="card-badge">-</div>
+            </div>
+            <p>Anuncia tu concierto con notros</p>
+            <div class="card-footer">
+              <span>-</span>
+              <span>-</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">Proximamente</div>
+              <div class="card-badge">-</div>
+            </div>
+            <p>Anuncia tu concierto con notros</p>
+            <div class="card-footer">
+              <span>-</span>
+              <span>-</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMUNIDAD -->
+    <section id="comunidad">
+      <div class="container">
+        <div class="section-header">
+          <h2>Comunidad</h2>
+          <p>Más que una pagina: un punto de encuentro para la escena. Conecta con otras personas que aman el ska, el rocksteady y el reggae.</p>
+        </div>
+
+        <div class="community-layout">
+          <div>
+            <h3 style="font-size:15px; margin-bottom:8px;">¿Qué puedes hacer aquí?</h3>
+            <ul class="list">
+              <li>Descubrir tocadas, festivales y eventos de la escena local.</li>
+              <li>Apoyar a bandas independientes compartiendo sus lanzamientos.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Únete al crew</div>
+              <div class="card-badge">Próximamente</div>
+            </div>
+            <p>Muy pronto podrás unirte a nuestro servidor de Discord / Telegram para convivir, organizar escuchas grupales y armar proyectos juntos.</p>
+            <div class="card-footer">
+              <span>Recibe la invitación primero:</span>
+              <span><a href="#contacto">Suscríbete al boletín</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto">
+      <div class="container">
+        <div class="section-header">
+          <h2>Contacto</h2>
+          <p>Manda tu música, colaboración o información de eventos. Esta pagina vive para la escena de la musica.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div>
+            <form>
+              <div>
+                <label for="nombre">Nombre / Banda</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre o el de tu proyecto" />
+              </div>
+
+              <div>
+                <label for="correo">Correo</label>
+                <input type="email" id="correo" name="correo" placeholder="tunombre@correo.com" />
+              </div>
+
+              <div>
+                <label for="tipo">Quiero</label>
+                <select id="tipo" name="tipo">
+                  <option>Enviar música</option>
+                  <option>Proponer un programa</option>
+                  <option>Colaborar como locutor/a</option>
+                  <option>Compartir evento</option>
+                  <option>Otro</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="mensaje">Mensaje</label>
+                <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos sobre tu proyecto, links, fechas, etc."></textarea>
+              </div>
+
+              <div>
+                <button class="btn" type="submit">Enviar mensaje</button>
+              </div>
+            </form>
+          </div>
+
+          <div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Envía tu música</div>
+                <div class="card-badge">Bandas independientes</div>
+              </div>
+              <p>Comparte enlaces a tus canciones (Bandcamp, Spotify, YouTube, etc.) y una breve descripción de tu proyecto.</p>
+              <div class="card-footer">
+                <span>Formato recomendado: MP3 / WAV</span>
+                <span>Incluye redes sociales</span>
+              </div>
+            </div>
+
+            <div style="height:10px;"></div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Boletín</div>
+                <div class="card-badge">Newsletter</div>
+              </div>
+              <p>Recibe en tu correo la programación de la semana, lanzamientos nuevos y boletos para eventos de la escena.</p>
+              <div class="card-footer">
+                <span>1 correo por semana</span>
+                <span>Sin spam</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="socials">
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="#">YouTube</a>
+        <a href="#">Bandcamp</a>
+      </div>
+      <div>© 2025 Rude Collective · Collective independiente de Rocksteady, Ska, Reggae &amp; Rock.</div>
+    </div>
+  </footer>
+</body>
+</html>
